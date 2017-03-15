@@ -1,6 +1,7 @@
 package com.cxy.android.xkits.activity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cxy.android.xkits.R;
+import com.cxy.android.xkits.ScreenUtil;
 import com.cxy.android.xkits.TelephoneUtil;
 
 /**
@@ -45,6 +47,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 sb.append("network enable : " + TelephoneUtil.isNetworkEnable(this) + "\n");
                 sb.append("wifi enable : " + TelephoneUtil.isWifiEnable(this) + "\n");
                 sb.append("mobile network enable : " + TelephoneUtil.isMobileEnable(this) + "\n");
+
+                sb.append("\n>>>>screen info<<<<<\n");
+                sb.append("screen width : " + ScreenUtil.getScreenWidth(this) + "\n");
+                sb.append("screen height : " + ScreenUtil.getScreenHeight(this) + "\n");
+                sb.append("screen real size : " + ScreenUtil.getRealScreenSize(this) + "\n");
+                sb.append("screen density : " + ScreenUtil.getDensity(this) + "\n");
+
+                sb.append("\n>>>>phone info<<<<\n");
+                sb.append("imei : " + TelephoneUtil.getIMEI(this) + "\n");
+                sb.append("imsi : " + TelephoneUtil.getIMSI(this) + "\n");
+
+                ActivityManager.MemoryInfo memoryInfo = TelephoneUtil.getMemoryInfo(this);
+                sb.append("\n>>>>memory info<<<<\n");
+                sb.append("avail memory : " + memoryInfo.availMem + "\n");
+                sb.append("total memory : " + memoryInfo.threshold + "\n");
                 tvNetworkInfo.setText(sb.toString());
                 break;
         }
