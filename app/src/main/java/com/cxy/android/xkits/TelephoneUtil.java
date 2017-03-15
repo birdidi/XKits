@@ -1,8 +1,11 @@
 package com.cxy.android.xkits;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.telephony.TelephonyManager;
 
 /**
  * Author: xyc000
@@ -91,4 +94,51 @@ public class TelephoneUtil {
         return false;
     }
 
+    /**
+     * warning: need permission : android.permission.READ_PHONE_STATE
+     *
+     * @param context
+     * @return
+     */
+    public static String getIMEI(Context context) {
+        TelephonyManager telephonyManager = getTelephonyManager(context);
+        return telephonyManager.getDeviceId();
+    }
+
+    /**
+     * warning: need permission : android.permission.READ_PHONE_STATE
+     *
+     * @param context
+     * @return
+     */
+    public static String getIMSI(Context context) {
+        TelephonyManager telephonyManager = getTelephonyManager(context);
+        return telephonyManager.getSubscriberId();
+    }
+
+    public static boolean isSimExists(Context context) {
+        TelephonyManager telephonyManager = getTelephonyManager(context);
+        return telephonyManager.getSimState() != 1;
+    }
+
+    public static String getReleaseVersion() {
+        return Build.VERSION.RELEASE;
+    }
+
+    public static ActivityManager.MemoryInfo getMemoryInfo(Context context) {
+        ActivityManager activityManager = getActivityManager(context);
+        ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(info);
+
+        return info;
+    }
+
+    private static ActivityManager getActivityManager(Context context) {
+        return (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+    }
+
+    private static TelephonyManager getTelephonyManager(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return telephonyManager;
+    }
 }
